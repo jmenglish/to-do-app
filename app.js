@@ -21,6 +21,9 @@ function onReady() {
      // set the input's type to checkbox
      checkbox.type = "checkbox";
 
+     //create delete button
+     let deleteButton = document.createElement('button')
+
 //textContent property writes the content of the elmenets seen (frontend of to-do-list)
 
      // set the title
@@ -34,7 +37,20 @@ function onReady() {
 
      //empty the input
      newToDoText.value = '';
-     
+
+//delete button and functionality
+     //add text to delete button
+     deleteButton.textContent = "Delete";
+
+     //add delete button to newLi
+		  newLi.appendChild(deleteButton);
+
+     //delete the to-do when the delete button is clicked
+		  deleteButton.addEventListener('click', event => {
+			event.target.parentNode.remove();
+
+		  });
+
    });
 
  }
