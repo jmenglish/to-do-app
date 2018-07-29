@@ -1,62 +1,49 @@
 function onReady() {
-//the document object is the glue that binds JS and HTML
- const addToDoForm = document.getElementById('addToDoForm');
- const newToDoText = document.getElementById('newToDoText');
- const toDoList = document.getElementById('toDoList');
+  const toDos = [];
+  const addToDoForm = document.getElementById('addToDoForm');
 
-//event listener
-     addToDoForm.addEventListener('submit', (event) => {
-     event.preventDefault();
+  function createNewToDo () {
+    const newToDoText = document.getElementById('newToDoText');
+    if (!newToDoText.value) {return; }
 
-//event handlers (backend of to-do-list features)
-     // get the text
-     let title = newToDoText.value;
+    toDos.push({
+      title: newToDoText.value,
+      complete: false
+    });
 
-     // create a new li
-     let newLi = document.createElement('li');
+    newToDoText.value = '';
 
-     // create a new input
-     let checkbox = document.createElement('input');
+    renderTheUI();
+  }
 
-     // set the input's type to checkbox
-     checkbox.type = "checkbox";
+  function renderTheUI() {
+    const toDoList = document.getElementById('toDoList');
 
-     //create delete button
-     let deleteButton = document.createElement('button')
+    toDoList.textContent = '';
 
-//textContent property writes the content of the elmenets seen (frontend of to-do-list)
+    toDos.forEach(function(toDo) {
+      const newLi = document.createElement('li');
+      const checkbox = document.createElement('input');
+      checkbox.type = "checkbox";
 
-     // set the title
-     newLi.textContent = title;
+      newLi.textContent = toDo.title;
 
-     // attach the checkbox to the li
-     newLi.appendChild(checkbox);
+      toDoList.appendChild(newLi);
+      newLi.appendChild(checkbox);
+    });
 
-     // attach the li to the ul
-     toDoList.appendChild(newLi);
+  }
 
-     //empty the input
-     newToDoText.value = '';
+  //event listener for?
+  addToDoForm.addEventListner('submit', event => {
+    event.preventDefault();
+    createNewToDo();
+  });
 
-//delete button and functionality
-     //add text to delete button
-     deleteButton.textContent = "Delete";
-
-     //add delete button to newLi
-		  newLi.appendChild(deleteButton);
-
-     //delete the to-do when the delete button is clicked
-		  deleteButton.addEventListener('click', event => {
-			event.target.parentNode.remove();
-
-		  });
-
-   });
-
+  renderTheUI();
  }
 
-//an event handler for the load event of window and passes a JS alert.
+//an event handler for the load event of window
 window.onload = function() {
- alert("The window has loaded!");
  onReady();
 };
